@@ -59,7 +59,6 @@ public class ViewProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.i(TAG, "userProfileRef.addValueEventListener -- onDataChange()");
                UserProfile profile = dataSnapshot.getValue(UserProfile.class);
-               user = dataSnapshot.getValue(UserProfile.class);
                 if (profile != null) {
                     Log.i(TAG, "profile: " + profile.toString());
                     tvName.setText(profile.getName());
@@ -77,9 +76,11 @@ public class ViewProfileActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), EditProfileActivity.class);
-                i.putExtra("user",user);
-                startActivity(i);
+
+                    Intent i = new Intent(getBaseContext(), EditProfileActivity.class);
+                    startActivity(i);
+
+
             }
         });
 

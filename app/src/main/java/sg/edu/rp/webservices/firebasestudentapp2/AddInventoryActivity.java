@@ -36,7 +36,7 @@ public class AddInventoryActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        inventoryListRef = firebaseDatabase.getReference(firebaseUser.getUid()+"/inventoryList");
+        inventoryListRef = firebaseDatabase.getReference("/inventoryList/"+firebaseUser.getUid());
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

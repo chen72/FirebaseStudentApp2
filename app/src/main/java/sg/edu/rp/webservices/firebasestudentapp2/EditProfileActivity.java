@@ -1,6 +1,7 @@
 package sg.edu.rp.webservices.firebasestudentapp2;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +13,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private DatabaseReference userProfileRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +52,28 @@ public class EditProfileActivity extends AppCompatActivity {
         firebaseRef = firebaseDatabase.getReference("/profiles");
         Log.i("user",firebaseUser+"");
 
-        Intent intent = getIntent();
-        userProfile = (UserProfile) intent.getSerializableExtra("user");
-        etName.setText(userProfile.getName());
-        etContactNo.setText(userProfile.getContactNo());
-        etHobbies.setText(userProfile.getHobbies());
+        userProfileRef = firebaseDatabase.getReference("profiles/" + firebaseUser.getUid());
+
+
+        userProfileRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i(TAG, "userProfileRef.addValueEventListener -- onDataChange()");
+                UserProfile profile = dataSnapshot.getValue(UserProfile.class);
+                if (profile != null) {
+                    Log.i(TAG, "profile: " + profile.toString());
+                    etName.setText(profile.getName());
+                    etContactNo.setText(profile.getContactNo());
+                    etHobbies.setText(profile.getHobbies());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Database error occurred", databaseError.toException());
+            }
+        });
+
 
         tvEmail.setText(firebaseUser.getEmail());
 

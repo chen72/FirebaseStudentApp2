@@ -43,7 +43,7 @@ public class InventoryDetailsActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        inventoryListRef = firebaseDatabase.getReference(firebaseUser.getUid()+"/inventoryList");
+        inventoryListRef = firebaseDatabase.getReference("/inventoryList/"+firebaseUser.getUid());
         Intent intent = getIntent();
         inventory = (Inventory) intent.getSerializableExtra("Inventory");
         //Display Student details as retrieved from the intent

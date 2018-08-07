@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         lvInventory.setAdapter(aaInventory);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        inventoryListRef = firebaseDatabase.getReference(firebaseUser.getUid()+"/inventoryList");
+        inventoryListRef = firebaseDatabase.getReference("/inventoryList/"+firebaseUser.getUid());
 
 
         inventoryListRef.addChildEventListener(new ChildEventListener() {
